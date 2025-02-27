@@ -1,5 +1,13 @@
-nl\curio\elemental\Elemental.class
-nl\curio\elemental\BlazeTeamListener.class
+nl\curio\elemental\BreezeTeamListener.class
 nl\curio\elemental\GuardianTeamListener.class
-nl\curio\elemental\pickElement.class
+nl\curio\elemental\ArrowShooter.class
+nl\curio\elemental\CSpiderTeamListener.class
 nl\curio\elemental\FireballShooter.class
+nl\curio\elemental\KillTracker.class
+nl\curio\elemental\SnowballYeeter.class
+nl\curio\elemental\Elemental.class
+nl\curio\elemental\ElementInfoCommand.class
+nl\curio\elemental\ElementalLocationBoosts.class
+nl\curio\elemental\EggSmasher.class
+nl\curio\elemental\BlazeTeamListener.class
+nl\curio\elemental\pickElement.class

@@ -1,14 +1,9 @@
 package nl.curio.elemental;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Blaze;
-import org.bukkit.entity.ElderGuardian;
-import org.bukkit.entity.Guardian;
+import org.bukkit.entity.*;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.scoreboard.Team;
 import org.bukkit.scoreboard.*;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -16,7 +11,13 @@ public final class Elemental extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        this.getCommand("elementinfo").setExecutor(new ElementInfoCommand());
+        Bukkit.getScheduler().runTaskLater(this, () -> {
+            Bukkit.getLogger().info("KillTrackerPlugin has been enabled!");
+        }, 20L); // 1-second delay to ensure the server is initialized
+        Bukkit.getPluginManager().registerEvents(new KillTracker(), this);
         getCommand("pickElement").setExecutor(new pickElement());
+        getCommand("pickElement").setTabCompleter(new pickElement());
 
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
         Team fireTeam = scoreboard.getTeam("Fire");
@@ -24,7 +25,6 @@ public final class Elemental extends JavaPlugin {
         Team airTeam = scoreboard.getTeam("Air");
         Team earthTeam = scoreboard.getTeam("Earth");
         if (fireTeam == null) {
-            // Add the Blaze to the "Fire" team using its UUID
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team add Fire");
         }
         if (waterTeam == null){
@@ -36,7 +36,7 @@ public final class Elemental extends JavaPlugin {
         if (earthTeam == null){
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team add Earth");
         }
-
+//Makes every blaze team fire
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new BlazeTeamListener(), this);
         Bukkit.getWorlds().forEach(world ->
@@ -44,6 +44,8 @@ public final class Elemental extends JavaPlugin {
                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team join Fire " + blaze.getUniqueId().toString())
                 )
         );
+
+//        Makes every (elder)guardian team water
         pm.registerEvents(new GuardianTeamListener(),this);
         Bukkit.getWorlds().forEach(world ->
                 world.getEntitiesByClass(Guardian.class).forEach(Guardian ->
@@ -56,7 +58,26 @@ public final class Elemental extends JavaPlugin {
                 )
         );
 
+//        Makes every breeze team air
+        pm.registerEvents(new BreezeTeamListener(), this);
+        Bukkit.getWorlds().forEach(world ->
+                world.getEntitiesByClass(Breeze.class).forEach(Breeze ->
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team join Air " + Breeze.getUniqueId().toString())
+                )
+        );
+
+//        Makes every cave spider team earth
+        pm.registerEvents(new CSpiderTeamListener(), this);
+        Bukkit.getWorlds().forEach(world ->
+                world.getEntitiesByClass(CaveSpider.class).forEach(CaveSpider ->
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team join Earth " + CaveSpider.getUniqueId().toString())
+                )
+        );
+
         pm.registerEvents(new FireballShooter(), this);
+        pm.registerEvents(new ArrowShooter(),this);
+        pm.registerEvents(new EggSmasher(),this);
+        pm.registerEvents(new ElementalLocationBoosts(),this);
     }
 
     @Override
