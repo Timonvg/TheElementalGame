@@ -9,3 +9,6 @@ commands: # Commandos van de plugin
   pickElement: # Naam van het commando
     description: 'Pick your element and dominate your enemies' # Beschrijving van het commando
     usage: /pickElement [element]
+  elementinfo:
+    description: Shows information about elemental abilities.
+    usage: /elementinfo <element>
