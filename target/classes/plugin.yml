@@ -1,0 +1,11 @@
+name: Elemental
+version: '1.1'
+main: nl.curio.elemental.Elemental
+api-version: '1.21'
+description: Pick your element and gain an advantage over your enemies
+author: '<Poemba>'
+
+commands: # Commandos van de plugin
+  pickElement: # Naam van het commando
+    description: 'Pick your element and dominate your enemies' # Beschrijving van het commando
+    usage: /pickElement [element]
